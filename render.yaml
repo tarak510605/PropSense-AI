@@ -1,0 +1,33 @@
+services:
+  # Backend API Service
+  - type: web
+    name: propsense-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        generateValue: true
+      # Add your environment variables in Render Dashboard:
+      # MONGODB_URI, JWT_SECRET, GEMINI_API_KEY, CLOUDINARY_*
+
+  # Frontend Static Site
+  - type: web
+    name: propsense-frontend
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    pullRequestPreviewsEnabled: true
+    envVars:
+      - key: VITE_API_URL
+        value: https://propsense-api.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
