@@ -2,7 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import Property from '../models/Property.js';
 import { authenticateToken } from '../middleware/auth.js';
-import { getAIInsights } from '../services/openai.js';
+import { getAIInsights } from '../services/gemini.js';
 
 const router = express.Router();
 
