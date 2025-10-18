@@ -2,7 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import Property from '../models/Property.js';
 import { authenticateToken } from '../middleware/auth.js';
-import { getAIInsights } from '../services/gemini.js';
+import { getAIInsights, getChatResponse } from '../services/gemini.js';
 
 const router = express.Router();
 
@@ -173,9 +173,8 @@ router.post('/chat', authenticateToken, [
 
     const { message, propertyContext } = req.body;
 
-    // Import chat function
-    const { getChatResponse } = await import('../services/openai.js');
-    const response = await getChatResponse(message, propertyContext);
+  // Use chat function from gemini service
+  const response = await getChatResponse(message, propertyContext);
 
     res.json({
       message: 'Response generated successfully',
